@@ -3,20 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Neon Tide — GTA-style Cover Studio</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <div>
+    <h1>NEON TIDE <span>Cover Studio</span></h1>
+    <p>Your photos into a multi-panel GTA-style poster. Works fully offline.</p>
+  </div>
+  <button id="surprise" type="button" title="Random layout, grade and photos">🎲 Surprise me</button>
+</header>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="stage">
+    <div id="dropzone" class="dropzone" title="Drop photos here or use the picker below">
+      <canvas id="preview" width="960" height="540" aria-label="Cover preview"></canvas>
+      <p class="hint">Click a panel to select it, drag to move its photo. Drop more photos anywhere here.</p>
+    </div>
+    <div class="sizes" id="sizes" role="group" aria-label="Preview size">
+      <span>Preview:</span>
+      <button type="button" data-size="1920x1080" class="on">1920 × 1080</button>
+      <button type="button" data-size="1080x1350">1080 × 1350</button>
+      <button type="button" data-size="1080x1080">1080 × 1080</button>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <aside class="controls">
+    <section>
+      <h2>Photos</h2>
+      <label class="filebtn">+ Add photos <input id="photoInput" type="file" accept="image/*" multiple></label>
+      <div id="photos" class="thumbs"></div>
+      <p class="note">Click a thumbnail to put that photo in the selected panel.</p>
+    </section>
+    <section>
+      <h2>Selected panel</h2>
+      <p id="panelLabel" class="note">Panel 1 of 8</p>
+      <label>Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+      <div class="row">
+        <button id="centerPhoto" type="button">Center photo</button>
+        <label class="check"><input id="faceMode" type="checkbox"> Adjust face box</label>
+      </div>
+      <p class="note">The cyan face box marks skin that Poster Ink keeps smooth. Drag it in face-box mode.</p>
+    </section>
+    <section>
+      <h2>Layout</h2>
+      <div id="layouts" class="picker"></div>
+    </section>
+    <section>
+      <h2>Colour grade</h2>
+      <div id="grades" class="picker"></div>
+    </section>
+    <section>
+      <h2>Poster Ink</h2>
+      <div id="ink" class="segmented">
+        <button type="button" class="pick" data-ink="0">Off</button>
+        <button type="button" class="pick on" data-ink="1">Low</button>
+        <button type="button" class="pick" data-ink="2">High</button>
+      </div>
+      <p class="note">Halftone + posterize. Faces inside the cyan box are always kept smooth.</p>
+    </section>
+    <section>
+      <h2>Caption</h2>
+      <label>Title <input id="title" type="text" maxlength="24" value="NEON TIDE"></label>
+      <label>Script line <input id="scriptLine" type="text" maxlength="24" value="Vice City"></label>
+      <label>Tagline <input id="tagline" type="text" maxlength="48" value="WELCOME TO LEONIDA — SUMMER 2026"></label>
+      <label>Badge <input id="badge" type="text" maxlength="24" value="NEW SUMMER 2026"></label>
+    </section>
+    <section>
+      <h2>Export PNG</h2>
+      <div id="exports" class="exports">
+        <button type="button" data-size="1920x1080">PNG 1920 × 1080</button>
+        <button type="button" data-size="1080x1350">PNG 1080 × 1350</button>
+        <button type="button" data-size="1080x1080">PNG 1080 × 1080</button>
+      </div>
+      <p id="status" role="status">Ready — demo photos loaded.</p>
+    </section>
+  </aside>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
